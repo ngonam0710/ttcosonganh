@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tra cứu trường CNTT</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-gray-100 p-6">
+    <div class="max-w-4xl mx-auto">
+        <h1 class="text-2xl font-bold text-center mb-4">Tra cứu các trường thuộc lĩnh vực Công Nghệ Thông Tin</h1>
+ 
+        <div class="flex items-center border-2 border-gray-400 rounded-lg p-2 bg-white">
+            <input id="searchInput" type="text" class="w-full p-2 outline-none" placeholder="Nhập ngành học...">
+            <button onclick="searchSchools()" class="ml-2 bg-blue-500 text-white px-4 py-2 rounded-lg">Tìm kiếm</button>
+        </div>
+
+        <div id="filters" class="hidden mt-4">
+            <span class="font-semibold">Lọc theo vùng:</span>
+            <button onclick="filterRegion('Bắc')" class="bg-gray-200 px-3 py-1 rounded-lg m-1">Bắc</button>
+            <button onclick="filterRegion('Trung')" class="bg-gray-200 px-3 py-1 rounded-lg m-1">Trung</button>
+            <button onclick="filterRegion('Nam')" class="bg-gray-200 px-3 py-1 rounded-lg m-1">Nam</button>
+        </div>
+
+        <div id="resultContainer" class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4"></div>
+    </div>
+
+    <script>
+        const schools = [
+            { name: "Đại học Bách khoa Hà Nội (HUST)", founded: 1956, fields: ["CNTT", "Kỹ thuật"], region: "Bắc", website: "https://www.hust.edu.vn" },
+            { name: "Đại học Công nghệ - ĐHQGHN (UET)", founded: 2004, fields: ["CNTT", "Điện tử"], region: "Bắc", website: "https://uet.vnu.edu.vn" },
+            { name: "Đại học Khoa học Tự nhiên - ĐHQGHN (HUS)", founded: 1956, fields: ["CNTT", "Toán Tin"], region: "Bắc", website: "https://hus.vnu.edu.vn" },
+            { name: "Học viện Công nghệ Bưu chính Viễn thông (PTIT)", founded: 1997, fields: ["CNTT", "Viễn thông"], region: "Bắc", website: "https://portal.ptit.edu.vn" },
+            { name: "Đại học FPT (FPTU)", founded: 2006, fields: ["CNTT", "AI"], region: "Bắc", website: "https://daihoc.fpt.edu.vn" },
+            { name: "Đại học Bách khoa TP.HCM (HCMUT)", founded: 1957, fields: ["CNTT", "Kỹ thuật"], region: "Nam", website: "https://www.hcmut.edu.vn" },
+            { name: "Đại học Khoa học Tự nhiên - ĐHQG TP.HCM (HCMUS)", founded: 1977, fields: ["CNTT", "Dữ liệu"], region: "Nam", website: "https://www.hcmus.edu.vn" },
+            { name: "Đại học Công nghệ Thông tin - ĐHQG TP.HCM (UIT)", founded: 2006, fields: ["CNTT", "AI"], region: "Nam", website: "https://www.uit.edu.vn" },
+            { name: "Đại học Sư phạm Kỹ thuật TP.HCM (HCMUTE)", founded: 1962, fields: ["CNTT", "Kỹ thuật"], region: "Nam", website: "https://hcmute.edu.vn" },
+            { name: "Đại học Cần Thơ (CTU)", founded: 1966, fields: ["CNTT", "Công nghệ"], region: "Trung", website: "https://www.ctu.edu.vn" }
+        ];
+
+        function searchSchools() {
+            let keyword = document.getElementById("searchInput").value.toLowerCase();
+            let results = schools.filter(s => s.fields.some(f => f.toLowerCase().includes(keyword)));
+            displayResults(results);
+        }
+
+        function displayResults(results) {
+            let container = document.getElementById("resultContainer");
+            container.innerHTML = "";
+            document.getElementById("filters").classList.remove("hidden");
+
+            results.slice(0, 6).forEach(school => {
+                let div = document.createElement("div");
+                div.classList = "p-4 bg-white shadow-lg rounded-lg";
+                div.innerHTML = `<h3 class="font-semibold">${school.name}</h3>
+                                 <p>Năm thành lập: ${school.founded}</p>
+                                 <a href="${school.website}" target="_blank" class="text-blue-500">Xem chi tiết</a>`;
+                container.appendChild(div);
+            });
+        }
+
+        function filterRegion(region) {
+            let results = schools.filter(s => s.region === region);
+            displayResults(results);
+        }
+    </script>
+</body>
+</html>
